@@ -12,6 +12,7 @@ const List<String> currenciesList = [
   'JPY',
   'MXN',
   'NOK',
+  'NGN',
   'NZD',
   'PLN',
   'RON',

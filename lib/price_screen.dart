@@ -1,4 +1,7 @@
+import 'package:bitcoin_ticker/coin_data.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -6,6 +9,53 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
+
+  String selectedCurrency = 'USD';
+
+  DropdownButton<String> androidDropdown(){
+
+    List<DropdownMenuItem<String>> dropdownItems = [];
+
+    for(String currency in currenciesList){
+      var newItem = DropdownMenuItem(
+        child: Text(currency),
+        value: currency,
+      );
+      dropdownItems.add(newItem);
+    }
+
+
+    return DropdownButton<String>(
+        value: selectedCurrency,
+        items: dropdownItems,
+        onChanged: (value){
+          setState(() {
+            selectedCurrency = value;
+          });
+        },);
+  }
+
+  CupertinoPicker iosPicker(){
+
+    List<Text> pickerItems = [];
+
+    for(String currency in currenciesList){
+      pickerItems.add(Text(currency),);
+    }
+
+
+    return CupertinoPicker(
+      backgroundColor: Color(0xFF283593),
+      itemExtent: 32.0,
+      onSelectedItemChanged: (selectedIndex){
+        print(selectedIndex);
+      },
+      children: pickerItems,
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +69,7 @@ class _PriceScreenState extends State<PriceScreen> {
           Padding(
             padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
             child: Card(
-              color: Colors.lightBlueAccent,
+              color: Color(0xFF5C6BC0),
               elevation: 5.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -41,8 +91,8 @@ class _PriceScreenState extends State<PriceScreen> {
             height: 150.0,
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 30.0),
-            color: Colors.lightBlue,
-            child: null,
+            color: Color(0xFF283593),
+            child: Platform.isIOS ? iosPicker() : androidDropdown(),
           ),
         ],
       ),
